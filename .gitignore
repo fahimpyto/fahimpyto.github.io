@@ -17,6 +17,11 @@ pnpm-debug.log*
 .env
 .env.production
 
+# source images (webp versions are used in production)
+public/fa_lkn.png
+public/images/metascrub-hero.png
+metascrub-featured-image.png
+
 # macOS-specific files
 .DS_Store
 
