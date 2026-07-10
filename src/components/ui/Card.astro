@@ -1,0 +1,17 @@
+---
+export interface Props {
+  href?: string;
+  class?: string;
+}
+
+const { href } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  href={href}
+  class={`card card-hover block overflow-hidden ${Astro.props.class || ''}`}
+  {...(href ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+>
+  <slot />
+</Tag>

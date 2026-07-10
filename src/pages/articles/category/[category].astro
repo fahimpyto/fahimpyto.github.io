@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SectionTitle from '../../../components/ui/SectionTitle.astro';
+import BlogCard from '../../../components/widgets/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const categories = [...new Set(posts.map((p) => p.data.category))];
+  return categories.map((cat) => ({
+    params: { category: cat.toLowerCase() },
+    props: { category: cat },
+  }));
+}
+
+const { category } = Astro.props;
+const allPosts = await getCollection('blog');
+const filtered = allPosts
+  .filter((p) => !p.data.draft && p.data.category.toLowerCase() === category.toLowerCase())
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout
+  title={`${category} Articles`}
+  description={`Articles about ${category}.`}
+  currentPath={`/articles/category/${category.toLowerCase()}`}
+>
+  <section class="section-padding">
+    <div class="container-main">
+      <SectionTitle
+        title={`${category}`}
+        description={`All articles in the ${category} category.`}
+      />
+
+      {filtered.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              category={post.data.category}
+              tags={post.data.tags}
+              slug={post.id.replace(/\/index\.mdx$/, '').replace(/\.mdx$/, '')}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-(--color-current-text-secondary) py-12">No articles in this category yet.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

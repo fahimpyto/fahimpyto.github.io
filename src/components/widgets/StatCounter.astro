@@ -1,0 +1,16 @@
+---
+export interface Props {
+  value: string;
+  label: string;
+  class?: string;
+}
+---
+
+<div class={`text-center ${Astro.props.class || ''}`}>
+  <div class="text-4xl md:text-5xl font-heading font-bold text-(--color-current-primary) tracking-tight">
+    {Astro.props.value}
+  </div>
+  <div class="text-sm text-(--color-current-text-secondary) mt-1">
+    {Astro.props.label}
+  </div>
+</div>

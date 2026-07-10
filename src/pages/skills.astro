@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import SkillPill from '../components/widgets/SkillPill.astro';
+import CTA from '../components/widgets/CTA.astro';
+import skillsData from '../data/skills';
+---
+
+<BaseLayout title="Skills" description="Technologies and domains I work with." currentPath="/skills">
+  <section class="section-padding">
+    <div class="container-main">
+      <SectionTitle
+        title="Skills & Expertise"
+        description="Technologies and domains I work with."
+        align="left"
+      />
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {skillsData.map((group) => (
+          <SkillPill
+            domain={group.domain}
+            skills={group.skills}
+            color={group.color}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

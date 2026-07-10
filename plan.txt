@@ -1,0 +1,693 @@
+# **The Ultimate Roadmap for Building `fahimpyto`**
+
+### *A Professional Personal Website for Fahim Ahmed*
+
+---
+
+# 1. The Vision
+
+Don't build **just a portfolio**.
+
+Build your **professional home on the internet**.
+
+When someone searches:
+
+> **Fahim Ahmed**
+> or
+> **fahimpyto**
+
+they should find one website that answers everything:
+
+* Who are you?
+* What do you build?
+* What skills do you have?
+* What have you written?
+* What projects have you completed?
+* What open-source software have you published?
+* What are you currently learning?
+* How can someone hire or contact you?
+
+Think of your website as a combination of:
+
+* Portfolio
+* Blog
+* Knowledge Base
+* Resume
+* Case Studies
+* Digital Garden
+* Personal Brand
+
+---
+
+# 2. Long-Term Goal
+
+Imagine this website after 5 years.
+
+Instead of:
+
+```
+6 Projects
+```
+
+Imagine:
+
+```
+45 Projects
+
+150 Articles
+
+20 Case Studies
+
+12 Open Source Projects
+
+50 Achievements
+
+100+ Tutorials
+```
+
+Your website should be designed so **adding new content never requires redesigning the site**.
+
+---
+
+# 3. Technology Stack (My Recommendation)
+
+| Category   | Choice                   |
+| ---------- | ------------------------ |
+| Framework  | Astro                    |
+| Styling    | Tailwind CSS             |
+| Language   | TypeScript               |
+| Blog       | MDX                      |
+| Icons      | Lucide Icons             |
+| Search     | Pagefind                 |
+| Analytics  | Cloudflare Web Analytics |
+| Comments   | Giscus                   |
+| Deployment | GitHub Actions           |
+| Hosting    | GitHub Pages             |
+| Forms      | Web3Forms                |
+| Images     | Astro Image              |
+
+**Why Astro?**
+
+* Outstanding SEO
+* Very fast
+* Excellent image optimization
+* Easy Markdown blogging
+* Static site (no server costs)
+* Easy deployment to GitHub Pages
+* Modern and future-friendly
+
+---
+
+# 4. Brand Identity
+
+## Name
+
+```
+Fahim Ahmed
+```
+
+## Username
+
+```
+fahimpyto
+```
+
+## Domain
+
+Start with:
+
+```
+https://fahimpyto.github.io
+```
+
+Later buy:
+
+```
+fahimpyto.dev
+```
+
+That will become your permanent professional identity.
+
+---
+
+# 5. Design Philosophy
+
+Don't copy typical developer portfolios.
+
+Avoid:
+
+* Hacker terminal everywhere
+* Neon overload
+* Endless scrolling animations
+* Busy dashboards
+
+Instead, aim for:
+
+* Modern
+* Elegant
+* Spacious
+* Premium
+* Professional
+* Content-first
+* Image-rich
+
+Think of a blend between:
+
+* Apple
+* Stripe
+* Vercel
+* Linear
+* GitHub Docs
+
+Clean interfaces age much better than flashy ones.
+
+---
+
+# 6. Visual Style
+
+### Theme
+
+Dark mode first.
+
+Light mode optional.
+
+### Colors
+
+```
+Background
+#0B1220
+
+Surface
+#111827
+
+Primary
+#2563EB
+
+Accent
+#22D3EE
+
+Success
+#10B981
+
+Warning
+#F59E0B
+
+Text
+#F8FAFC
+
+Secondary
+#94A3B8
+```
+
+---
+
+### Fonts
+
+Headings
+
+```
+Space Grotesk
+```
+
+Body
+
+```
+Inter
+```
+
+Code
+
+```
+JetBrains Mono
+```
+
+---
+
+# 7. Site Structure
+
+```
+Home
+
+About
+
+Projects
+
+Articles
+
+Case Studies
+
+Skills
+
+Experience
+
+Achievements
+
+Journey
+
+Gallery
+
+Resources
+
+Uses
+
+Resume
+
+Contact
+```
+
+Notice there are **no unnecessary pages**. Every section has a clear purpose.
+
+---
+
+# 8. Homepage
+
+The homepage should answer five questions in under 30 seconds:
+
+* Who are you?
+* What do you do?
+* What have you built?
+* What have you written?
+* How can someone contact you?
+
+Suggested flow:
+
+```
+Hero
+
+Current Focus
+
+Featured Projects
+
+Latest Articles
+
+Featured Skills
+
+Achievements
+
+Testimonials (future)
+
+Contact
+```
+
+---
+
+# 9. Hero Section
+
+Use a clean layout with a professional photo or illustration.
+
+Example content:
+
+**Fahim Ahmed**
+
+Python Automation Engineer • Technical SEO Practitioner • Open Source Developer
+
+> I build Python automation tools, work on technical SEO, create open-source software, and share practical knowledge through technical writing.
+
+Buttons:
+
+* View Projects
+* Read Articles
+* Download Résumé
+
+Include small social icons (GitHub, LinkedIn, email) beneath the buttons.
+
+---
+
+# 10. About
+
+Tell your story instead of listing technologies.
+
+Cover:
+
+* How you started programming.
+* Why automation interests you.
+* Why SEO matters to you.
+* Why you publish open source.
+* What you're learning now.
+* Your future goals.
+
+---
+
+# 11. Skills
+
+Don't use percentage bars.
+
+Group skills by domain.
+
+### Python
+
+* BeautifulSoup
+* Selenium
+* Playwright
+* Requests
+* Asyncio
+
+### Data
+
+* NumPy
+* Pandas
+* Matplotlib
+* Scikit-learn
+
+### Web
+
+* Django
+* HTML
+* CSS
+* JavaScript
+
+### SEO
+
+* Technical SEO
+* Structured Data
+* Accessibility
+* Core Web Vitals
+
+### AI
+
+* AI-assisted automation
+* Prompt engineering
+* ML fundamentals
+
+### Tools
+
+* Git
+* GitHub
+* Linux
+* VS Code
+
+Link each skill to projects or articles that demonstrate it.
+
+---
+
+# 12. Projects
+
+Each project should have its own detailed page.
+
+Structure:
+
+* Hero image
+* Overview
+* Problem
+* Solution
+* Features
+* Screenshots
+* Architecture diagram
+* Tech stack
+* Challenges
+* Lessons learned
+* GitHub
+* Live demo
+* Future improvements
+
+For **metascrub**, include:
+
+* Why you created it.
+* Installation.
+* Usage examples.
+* Before/after EXIF screenshots.
+* Links to PyPI and GitHub.
+
+---
+
+# 13. Blog
+
+The blog is your long-term growth engine.
+
+Suggested categories:
+
+* Python
+* Web Scraping
+* Automation
+* Data Science
+* Django
+* Technical SEO
+* AI
+* Machine Learning
+* Linux
+* Case Studies
+
+Each post should include:
+
+* Cover image
+* Reading time
+* Table of contents
+* Tags
+* Related posts
+* Comments (optional)
+
+---
+
+# 14. Experience
+
+Don't limit this to jobs.
+
+Include:
+
+* Open-source work.
+* Freelance projects.
+* Personal projects.
+* Community contributions.
+
+Describe:
+
+* What you did.
+* Technologies used.
+* Outcomes.
+
+---
+
+# 15. Journey
+
+Create a timeline of your growth.
+
+Example:
+
+```
+2024
+Started learning Python
+
+↓
+
+2025
+Built first automation project
+
+↓
+
+2026
+Published metascrub on PyPI
+
+↓
+
+2026
+Started writing Technical SEO articles
+
+↓
+
+2026
+Launched fahimpyto.dev
+
+↓
+
+Future...
+```
+
+---
+
+# 16. Achievements
+
+This page grows over time.
+
+Include:
+
+* Certifications
+* Open-source releases
+* Published articles
+* Awards
+* Community contributions
+* Major milestones
+
+---
+
+# 17. Gallery
+
+Use visuals that support your work.
+
+Examples:
+
+* Project screenshots
+* Data visualizations
+* Architecture diagrams
+* Certificates
+* Workspace
+* Event photos
+
+---
+
+# 18. Resources
+
+Recommend:
+
+* Books
+* Courses
+* Python libraries
+* Browser extensions
+* SEO tools
+* AI tools
+
+This shows your workflow and helps other developers.
+
+---
+
+# 19. Uses
+
+A page listing the tools you use every day.
+
+Examples:
+
+* Laptop
+* Operating system
+* Editor
+* Browser
+* Keyboard
+* Monitor
+* Terminal
+* Favorite extensions
+
+---
+
+# 20. Contact
+
+Include:
+
+* Email
+* GitHub
+* LinkedIn
+* Contact form
+
+---
+
+# 21. SEO
+
+Since SEO is one of your strengths, let your own site be a showcase.
+
+Implement:
+
+* Semantic HTML
+* Structured data (`Person`, `BlogPosting`, `WebSite`, `BreadcrumbList`)
+* Canonical URLs
+* Open Graph
+* XML sitemap
+* Robots.txt
+* RSS feed
+* Optimized images
+* Accessibility best practices
+* Strong Core Web Vitals
+
+---
+
+# 22. Folder Structure
+
+```
+src/
+├── components/
+├── layouts/
+├── pages/
+├── content/
+│   ├── blog/
+│   ├── projects/
+│   ├── achievements/
+│   ├── timeline/
+│   └── resources/
+├── assets/
+└── styles/
+```
+
+Keeping content separate from components makes the site easy to maintain.
+
+---
+
+# 23. Content Workflow
+
+Every new blog post is an MDX file.
+
+Every new project is a folder with:
+
+* Markdown
+* Images
+* Assets
+
+Every new achievement is a single entry in a data file.
+
+This means adding content is quick and consistent.
+
+---
+
+# 24. Development Phases
+
+### Phase 1 — Foundation
+
+* Design system
+* Layout
+* Navigation
+* Homepage
+* About
+* Contact
+* Dark/light mode
+
+### Phase 2 — Core Content
+
+* Projects
+* Skills
+* Experience
+* Résumé
+
+### Phase 3 — Knowledge Hub
+
+* Blog
+* Categories
+* Tags
+* Search
+* RSS
+
+### Phase 4 — Professional Growth
+
+* Timeline
+* Achievements
+* Gallery
+* Resources
+* Uses
+
+### Phase 5 — Polish
+
+* SEO refinements
+* Accessibility audit
+* Performance optimization
+* Analytics
+* Comments
+* Image optimization
+
+---
+
+# 25. Content Strategy
+
+Aim to publish consistently rather than frequently.
+
+For example:
+
+* 1 project update each month
+* 2–4 technical articles each month
+* Update achievements whenever you reach a milestone
+* Refresh the "Now" section every few months
+
+Over time, your website becomes a record of your professional growth.
+
+---
+
+# Final Advice
+
+Treat **fahimpyto** as a **product**, not just a website.
+
+Before writing code, spend time designing the experience in Figma or Penpot. Define your colors, typography, buttons, cards, spacing, and layouts. Then build those designs in Astro.
+
+The result will be a fast, free, image-rich, SEO-friendly website that showcases your projects, technical writing, open-source work like **metascrub**, and evolving expertise in Python, automation, data science, Django, SEO, AI, and machine learning. Most importantly, it will be structured to grow with your career instead of needing to be rebuilt every year.

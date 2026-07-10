@@ -1,0 +1,75 @@
+---
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+interface NavItem {
+  label: string;
+  path: string;
+}
+
+const navItems: NavItem[] = [
+  { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Articles', path: '/articles' },
+  { label: 'Skills', path: '/skills' },
+  { label: 'Experience', path: '/experience' },
+  { label: 'Resume', path: '/resume' },
+  { label: 'Contact', path: '/contact' },
+];
+
+function isActive(itemPath: string): boolean {
+  if (itemPath === '/') return currentPath === '/';
+  return currentPath.startsWith(itemPath);
+}
+---
+
+<div id="mobile-menu" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="mobile-overlay"></div>
+  <div class="relative flex flex-col items-center justify-center h-full gap-2">
+    {
+      navItems.map((item) => (
+        <a
+          href={item.path}
+          class={`
+            text-2xl font-medium px-6 py-3 rounded-xl transition-all duration-200
+            ${isActive(item.path)
+              ? 'text-(--color-current-primary) bg-(--color-current-primary-muted)'
+              : 'text-(--color-current-text) hover:text-(--color-current-primary)'
+            }
+          `}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const openBtn = document.getElementById('menu-open');
+  const closeBtn = document.getElementById('menu-close');
+  const menu = document.getElementById('mobile-menu');
+  const overlay = document.getElementById('mobile-overlay');
+
+  function openMenu() {
+    menu?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  openBtn?.addEventListener('click', openMenu);
+  closeBtn?.addEventListener('click', closeMenu);
+  overlay?.addEventListener('click', closeMenu);
+
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>

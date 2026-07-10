@@ -1,0 +1,23 @@
+---
+export interface Props {
+  items: { label: string; href?: string }[];
+  class?: string;
+}
+---
+
+<nav aria-label="Breadcrumb" class={`mb-6 ${Astro.props.class || ''}`}>
+  <ol class="flex items-center gap-1.5 text-sm text-(--color-current-text-muted)">
+    {Astro.props.items.map((item, index) => (
+      <li class="flex items-center gap-1.5">
+        {index > 0 && <span class="text-(--color-current-text-muted)">/</span>}
+        {item.href ? (
+          <a href={item.href} class="hover:text-(--color-current-primary) transition-colors">
+            {item.label}
+          </a>
+        ) : (
+          <span class="text-(--color-current-text-secondary)">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

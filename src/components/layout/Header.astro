@@ -1,0 +1,42 @@
+---
+import Navigation from './Navigation.astro';
+import MobileNav from './MobileNav.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+---
+
+<header class="sticky top-0 z-40 border-b border-(--color-current-border) backdrop-blur-md" style="background-color: color-mix(in srgb, var(--color-current-bg) 80%, transparent);">
+  <div class="container-main flex items-center justify-between h-16">
+    <a href="/" class="text-xl font-bold font-heading tracking-tight text-(--color-current-text) hover:text-(--color-current-primary) transition-colors duration-200">
+      Fahim Ahmed
+    </a>
+
+    <div class="flex items-center gap-2">
+      <Navigation currentPath={currentPath} />
+
+      <ThemeToggle />
+
+      <button id="menu-open" class="md:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-(--color-current-border) bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-primary) cursor-pointer" aria-label="Open menu">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"/>
+          <line x1="4" x2="20" y1="6" y2="6"/>
+          <line x1="4" x2="20" y1="18" y2="18"/>
+        </svg>
+      </button>
+
+      <button id="menu-close" class="md:hidden hidden fixed top-4 right-4 z-50 items-center justify-center w-9 h-9 rounded-lg border border-(--color-current-border) bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-primary) cursor-pointer" aria-label="Close menu">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileNav currentPath={currentPath} />

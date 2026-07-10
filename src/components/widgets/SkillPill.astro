@@ -1,0 +1,24 @@
+---
+export interface Props {
+  domain: string;
+  skills: string[];
+  color?: string;
+  class?: string;
+}
+
+const { domain, skills, color = '#2563EB' } = Astro.props;
+---
+
+<div class={`card p-5 ${Astro.props.class || ''}`}>
+  <div class="flex items-center gap-2 mb-3">
+    <span class="w-2.5 h-2.5 rounded-full" style={`background-color: ${color}`}></span>
+    <h3 class="text-sm font-semibold text-(--color-current-text)">{domain}</h3>
+  </div>
+  <div class="flex flex-wrap gap-1.5">
+    {skills.map((skill) => (
+      <span class="text-xs text-(--color-current-text-secondary) bg-(--color-current-bg) px-2.5 py-1 rounded-md border border-(--color-current-border)">
+        {skill}
+      </span>
+    ))}
+  </div>
+</div>

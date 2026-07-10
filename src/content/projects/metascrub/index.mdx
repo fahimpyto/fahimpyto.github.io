@@ -1,0 +1,128 @@
+---
+title: metascrub
+description: Strip AI metadata from images — ChatGPT, DALL-E, Midjourney, Stable Diffusion, ComfyUI, Adobe Firefly, and more. Optionally inject realistic camera EXIF or design-app metadata.
+pubDate: 2026-06-15
+heroImage: /images/metascrub-hero.png
+techStack:
+  - Python
+  - CLI
+  - EXIF
+  - C2PA
+  - PyPI
+githubUrl: https://github.com/fahimpyto/metascrub
+pypiUrl: https://pypi.org/project/metascrub/
+featured: true
+category: Open Source
+---
+
+import { Image } from 'astro:assets';
+
+## Overview
+
+**metascrub** is a command-line tool that detects and removes AI-generated metadata from images. Modern AI image generators like ChatGPT, DALL-E, Midjourney, and Adobe Firefly embed metadata (including C2PA manifests) that identifies them as AI-generated. metascrub strips this data cleanly and can optionally inject realistic camera EXIF or design-application metadata.
+
+## Problem
+
+AI-generated images contain hidden metadata that reveals their origin. This includes:
+
+- C2PA manifests with software agent info (e.g., `gpt-image` → "ChatGPT (OpenAI)")
+- PNG text chunks with generation parameters
+- EXIF fields with AI tool identifiers
+- XMP metadata sections
+
+This metadata can affect how images are perceived, categorized, and trusted in professional contexts.
+
+## Solution
+
+metascrub provides a clean, fast CLI that:
+
+1. **Scans** images to detect AI metadata
+2. **Strips** all traces of AI generation data
+3. **Optionally injects** realistic camera EXIF or design-app metadata
+4. **Supports** PNG, JPEG/JPG, and WebP formats
+
+## Features
+
+### Deep C2PA Manifest Parsing
+
+Images from C2PA-compliant tools embed a signed manifest. metascrub extracts and displays software agent, claim generator, actions, timestamps, certificates, and signatures.
+
+### Accurate AI Tool Detection
+
+| Tool | Detected As |
+|------|-------------|
+| ChatGPT / DALL-E | ChatGPT (OpenAI) |
+| Midjourney | Midjourney |
+| Stable Diffusion (A1111) | Stable Diffusion (A1111) |
+| ComfyUI | ComfyUI |
+| Adobe Firefly | Adobe Firefly |
+
+### Data Manipulation Modes
+
+- **Auto Organic** — Injects random realistic camera profiles (Canon, Nikon, Sony, Fujifilm) with matching shooting settings
+- **Custom Edit** — Manual control over every EXIF field: make, model, lens, ISO, aperture, GPS, copyright, etc.
+- **Design App** — Injects metadata mimicking Photoshop, Procreate, Clip Studio Paint, Krita, GIMP, Canva
+
+## Installation
+
+```bash
+pip install metascrub
+```
+
+After installation, the `mtsb` command is available globally.
+
+## Usage
+
+### Quick checks
+
+```bash
+# Check if an image is AI-generated
+mtsb status image.png
+
+# Show ALL metadata (50+ fields)
+mtsb info image.png
+```
+
+### Cleaning
+
+```bash
+# Strip all AI metadata
+mtsb clean image.png
+
+# Strip + inject realistic camera EXIF
+mtsb clean image.png --organic
+
+# Strip + inject design-app metadata
+mtsb clean image.png --design
+```
+
+### Interactive scanning
+
+```bash
+mtsb scan
+```
+
+This opens an interactive interface showing a table of images with AI detection status, letting you pick and process them one by one.
+
+## Tech Stack
+
+- **Language**: Python 3.8+
+- **Libraries**: Pillow, struct, json
+- **Format**: PyPI package with CLI entry point
+- **License**: MIT
+
+## Challenges
+
+Parsing C2PA manifests required deep reverse-engineering of the C2PA specification. Different AI tools embed metadata differently — some use standard C2PA, others use custom PNG chunks or proprietary EXIF fields. Handling all variants while maintaining reliability was the biggest technical challenge.
+
+## Lessons Learned
+
+Building metascrub taught me about image file formats at the binary level, digital signature verification, and the evolving landscape of AI content credentials. The project also reinforced the importance of clean CLI design and comprehensive documentation.
+
+## Future Improvements
+
+- Batch processing mode
+- GUI interface
+- Support for more image formats (HEIC, AVIF)
+- Integration with photography workflows
+- C2PA signature verification tools

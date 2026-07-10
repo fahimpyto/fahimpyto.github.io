@@ -1,0 +1,50 @@
+---
+import Card from '../ui/Card.astro';
+import Badge from '../ui/Badge.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  category: string;
+  tags: string[];
+  slug: string;
+  readingTime?: number;
+  class?: string;
+}
+
+const { title, description, pubDate, category, tags, slug, readingTime } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Card href={`/articles/${slug}`} class="flex flex-col h-full">
+  <div class="p-6 flex flex-col flex-1">
+    <div class="flex items-center gap-3 text-xs text-(--color-current-text-muted) mb-3">
+      <Badge>{category}</Badge>
+      {readingTime && <span>{readingTime} min read</span>}
+    </div>
+
+    <h3 class="text-lg font-heading font-semibold text-(--color-current-text) mb-2 leading-snug">
+      {title}
+    </h3>
+    <p class="text-sm text-(--color-current-text-secondary) leading-relaxed mb-4 flex-1 line-clamp-2">
+      {description}
+    </p>
+
+    <div class="flex items-center justify-between mt-auto">
+      <span class="text-xs text-(--color-current-text-muted)">
+        {formattedDate}
+      </span>
+      <div class="flex gap-1.5">
+        {tags.slice(0, 2).map((tag) => (
+          <span class="text-xs text-(--color-current-text-muted)">#{tag}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</Card>

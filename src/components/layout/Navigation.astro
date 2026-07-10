@@ -1,0 +1,47 @@
+---
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+interface NavItem {
+  label: string;
+  path: string;
+}
+
+const navItems: NavItem[] = [
+  { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Articles', path: '/articles' },
+  { label: 'Skills', path: '/skills' },
+  { label: 'Experience', path: '/experience' },
+  { label: 'Resume', path: '/resume' },
+  { label: 'Contact', path: '/contact' },
+];
+
+function isActive(itemPath: string): boolean {
+  if (itemPath === '/') return currentPath === '/';
+  return currentPath.startsWith(itemPath);
+}
+---
+
+<nav class="hidden md:flex items-center gap-1">
+  {
+    navItems.map((item) => (
+      <a
+        href={item.path}
+        class={`
+          px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200
+          ${isActive(item.path)
+            ? 'text-(--color-current-primary) bg-(--color-current-primary-muted)'
+            : 'text-(--color-current-text-secondary) hover:text-(--color-current-text) hover:bg-(--color-current-surface)'
+          }
+        `}
+      >
+        {item.label}
+      </a>
+    ))
+  }
+</nav>

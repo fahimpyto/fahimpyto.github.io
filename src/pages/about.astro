@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatCounter from '../components/widgets/StatCounter.astro';
+import CTA from '../components/widgets/CTA.astro';
+import { QUICK_STATS } from '../data/site';
+---
+
+<BaseLayout
+  title="About"
+  description="Learn more about Fahim Ahmed — Python Automation Expert, Technical SEO Practitioner, Open Source Developer, and AI Enthusiast."
+  currentPath="/about"
+>
+  <section class="section-padding">
+    <div class="container-main">
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+        <div class="animate-fade-in">
+          <div class="w-full max-w-sm mx-auto md:mx-0 rounded-2xl border border-(--color-current-border) bg-(--color-current-surface) overflow-hidden shadow-xl">
+            <img
+              src="/fa_lkn.png"
+              alt="Fahim Ahmed"
+              class="w-full h-auto"
+              width="400"
+              height="400"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div class="animate-fade-in">
+          <p class="text-xs font-semibold uppercase tracking-widest text-(--color-current-primary) mb-3">
+            About
+          </p>
+          <h1 class="text-4xl md:text-5xl font-heading font-bold text-(--color-current-text) tracking-tight mb-6">
+            Fahim Ahmed
+          </h1>
+          <p class="text-lg text-(--color-current-primary) font-medium mb-6">
+            Python Automation Expert · Technical SEO Practitioner · Open Source Developer · AI Enthusiast
+          </p>
+
+          <div class="prose">
+            <p>
+              My journey into programming started in 2024 with Python. What began as curiosity
+              quickly turned into a passion for building tools that automate repetitive tasks,
+              extract meaningful data from the web, and solve real-world problems.
+            </p>
+            <p>
+              Automation is what drives me. Whether it's scraping websites with BeautifulSoup
+              and Selenium, processing data with Pandas and NumPy, or building CLI tools like
+              <strong> metascrub</strong> — I love creating software that makes things easier,
+              faster, and more reliable.
+            </p>
+            <p>
+              Technical SEO is another area I'm deeply invested in. I believe the web should be
+              fast, accessible, and well-structured. Understanding how search engines work and
+              how to optimize for them has become a core part of my skill set.
+            </p>
+            <p>
+              I publish open-source software because I believe in sharing knowledge. metascrub,
+              my PyPI package for stripping AI metadata from images, is one example of how I
+              contribute back to the developer community.
+            </p>
+            <p>
+              Currently, I'm exploring AI-assisted automation, prompt engineering, and machine
+              learning fundamentals. The intersection of AI and automation is where I see the
+              most exciting opportunities.
+            </p>
+            <p>
+              My long-term goal is to become a well-rounded developer who can build end-to-end
+              solutions — from web scraping and data pipelines to Django web apps and AI-powered
+              tools. This website is part of that journey.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Stats -->
+  <section class="section-padding border-t border-(--color-current-border)">
+    <div class="container-main">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {QUICK_STATS.map((stat) => (
+          <StatCounter value={stat.value} label={stat.label} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

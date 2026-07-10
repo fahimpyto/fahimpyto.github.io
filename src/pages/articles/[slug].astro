@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/widgets/Breadcrumbs.astro';
+import Badge from '../../components/ui/Badge.astro';
+import CTA from '../../components/widgets/CTA.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => {
+    const slug = post.id.replace(/\/index\.mdx$/, '').replace(/\.mdx$/, '');
+    return {
+      params: { slug },
+      props: { post, slug },
+    };
+  });
+}
+
+const { post, slug } = Astro.props;
+const { Content } = await render(post);
+
+const readingTime = Math.ceil(
+  post.body ? post.body.split(/\s+/).length / 200 : 0
+);
+
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  currentPath={`/articles/${slug}`}
+  publishedTime={post.data.pubDate.toISOString()}
+  tags={post.data.tags}
+  type="article"
+>
+  <section class="section-padding">
+    <div class="container-article">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Articles', href: '/articles' },
+          { label: post.data.title },
+        ]}
+      />
+
+      <article>
+        <header class="mb-8">
+          <div class="flex items-center gap-3 text-sm text-(--color-current-text-muted) mb-4">
+            <Badge variant={post.data.category === 'SEO' ? 'success' : 'default'}>{post.data.category}</Badge>
+            <span>{formattedDate}</span>
+            <span>{readingTime} min read</span>
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-heading font-bold text-(--color-current-text) tracking-tight leading-[1.15] mb-6">
+            {post.data.title}
+          </h1>
+
+          <p class="text-lg text-(--color-current-text-secondary) max-w-2xl">
+            {post.data.description}
+          </p>
+        </header>
+
+        <div class="prose max-w-none">
+          <Content />
+        </div>
+
+        <footer class="mt-12 pt-8 border-t border-(--color-current-border)">
+          <div class="flex flex-wrap items-center gap-2 mb-6">
+            {post.data.tags.map((tag) => (
+              <Badge>{tag}</Badge>
+            ))}
+          </div>
+
+          <div class="flex items-center gap-4 text-sm text-(--color-current-text-secondary)">
+            <span>Share:</span>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(`https://fahimpyto.github.io/articles/${slug}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-(--color-current-primary) transition-colors"
+            >
+              Twitter
+            </a>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://fahimpyto.github.io/articles/${slug}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-(--color-current-primary) transition-colors"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

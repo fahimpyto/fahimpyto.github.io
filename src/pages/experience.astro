@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import TimelineItem from '../components/widgets/TimelineItem.astro';
+import CTA from '../components/widgets/CTA.astro';
+import experienceData from '../data/experience';
+---
+
+<BaseLayout title="Experience" description="My journey, projects, and contributions." currentPath="/experience">
+  <section class="section-padding">
+    <div class="container-main">
+      <SectionTitle
+        title="Experience"
+        description="My journey through projects, open-source, and learning."
+        align="left"
+      />
+
+      <div class="max-w-3xl mx-auto mt-8">
+        {experienceData.map((item) => (
+          <TimelineItem
+            title={item.title}
+            date={item.date}
+            description={item.description}
+            tags={item.tags}
+            category={item.category}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

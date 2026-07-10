@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import Button from '../components/ui/Button.astro';
+import CTA from '../components/widgets/CTA.astro';
+import experienceData from '../data/experience';
+import skillsData from '../data/skills';
+---
+
+<BaseLayout title="Resume" description="Professional resume of Fahim Ahmed." currentPath="/resume">
+  <section class="section-padding">
+    <div class="container-main">
+      <div class="flex items-start justify-between mb-12">
+        <div>
+          <SectionTitle
+            title="Resume"
+            description="My professional experience and skills."
+            align="left"
+          />
+        </div>
+        <Button href="#" variant="secondary" class="hidden sm:inline-flex">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" x2="12" y1="15" y2="3"/>
+          </svg>
+          Download PDF
+        </Button>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="mb-10 pb-8 border-b border-(--color-current-border)">
+          <h1 class="text-3xl font-heading font-bold text-(--color-current-text) mb-2">Fahim Ahmed</h1>
+          <p class="text-(--color-current-primary) font-medium mb-3">Python Automation Expert · Technical SEO Practitioner · Open Source Developer · AI Enthusiast</p>
+          <div class="flex flex-wrap gap-4 text-sm text-(--color-current-text-secondary)">
+            <span>GitHub: github.com/fahimpyto</span>
+            <span>PyPI: pypi.org/user/fahimpyto</span>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="mb-8">
+          <h2 class="text-xl font-heading font-semibold text-(--color-current-text) mb-3">Summary</h2>
+          <p class="text-sm text-(--color-current-text-secondary) leading-relaxed">
+            Python developer with expertise in automation, web scraping, data processing, and open-source development.
+            Passionate about building tools that solve real problems. Experienced in BeautifulSoup, Selenium, Playwright,
+            Pandas, NumPy, and Django. Creator of metascrub — a CLI tool for AI metadata stripping. Strong Technical SEO
+            knowledge with focus on structured data, accessibility, and Core Web Vitals. Active open-source contributor
+            and AI/ML enthusiast.
+          </p>
+        </div>
+
+        <!-- Experience -->
+        <div class="mb-8">
+          <h2 class="text-xl font-heading font-semibold text-(--color-current-text) mb-4">Experience</h2>
+          <div class="space-y-6">
+            {experienceData.map((item) => (
+              <div class="pb-6 border-b border-(--color-current-border) last:border-0 last:pb-0">
+                <div class="flex items-start justify-between mb-1">
+                  <h3 class="text-base font-semibold text-(--color-current-text)">{item.title}</h3>
+                  <span class="text-xs text-(--color-current-primary) font-medium whitespace-nowrap ml-4">{item.date}</span>
+                </div>
+                <p class="text-sm text-(--color-current-text-secondary) leading-relaxed">{item.description}</p>
+                <div class="flex flex-wrap gap-1.5 mt-2">
+                  {item.tags.map((tag) => (
+                    <span class="text-xs text-(--color-current-text-muted) bg-(--color-current-bg) px-2 py-0.5 rounded border border-(--color-current-border)">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="mb-8">
+          <h2 class="text-xl font-heading font-semibold text-(--color-current-text) mb-4">Skills</h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {skillsData.map((group) => (
+              <div>
+                <h4 class="text-sm font-semibold text-(--color-current-text) mb-2">{group.domain}</h4>
+                <div class="flex flex-wrap gap-1.5">
+                  {group.skills.map((skill) => (
+                    <span class="text-xs text-(--color-current-text-secondary) bg-(--color-current-bg) px-2 py-0.5 rounded border border-(--color-current-border)">{skill}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Open Source -->
+        <div class="mb-8">
+          <h2 class="text-xl font-heading font-semibold text-(--color-current-text) mb-3">Open Source</h2>
+          <div class="p-4 rounded-lg border border-(--color-current-border) bg-(--color-current-surface)">
+            <h3 class="text-sm font-semibold text-(--color-current-text)">metascrub</h3>
+            <p class="text-xs text-(--color-current-text-secondary) mt-1">CLI tool for stripping AI metadata from images. Supports C2PA manifest parsing, multi-format cleaning, and realistic EXIF injection.</p>
+            <p class="text-xs text-(--color-current-text-muted) mt-1">Python · CLI · pypi.org/project/metascrub</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+export interface Props {
+  variant?: 'default' | 'success' | 'warning' | 'error';
+  class?: string;
+}
+
+const { variant = 'default' } = Astro.props;
+
+const variantStyles: Record<string, string> = {
+  default: 'bg-(--color-current-primary-muted) text-(--color-current-primary)',
+  success: 'bg-(--color-current-success)/10 text-(--color-current-success)',
+  warning: 'bg-(--color-current-warning)/10 text-(--color-current-warning)',
+  error: 'bg-(--color-current-error)/10 text-(--color-current-error)',
+};
+---
+
+<span class={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium ${variantStyles[variant]} ${Astro.props.class || ''}`}>
+  <slot />
+</span>
