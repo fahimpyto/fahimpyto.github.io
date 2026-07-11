@@ -7,7 +7,7 @@ export interface SocialLink {
 const socialLinks: SocialLink[] = [
   { platform: 'GitHub', url: 'https://github.com/fahimpyto', icon: 'github' },
   { platform: 'LinkedIn', url: 'https://linkedin.com/in/fahimpyto', icon: 'linkedin' },
-  { platform: 'Email', url: 'mailto:fahimpyto@email.com', icon: 'mail' },
+  { platform: 'Email', url: 'mailto:fahimahmed2911bd@gmail.com', icon: 'mail' },
   { platform: 'Facebook', url: 'https://www.facebook.com/fahimpyto', icon: 'facebook' },
   { platform: 'WhatsApp', url: 'https://wa.me/8801577388669', icon: 'whatsapp' },
 ];
