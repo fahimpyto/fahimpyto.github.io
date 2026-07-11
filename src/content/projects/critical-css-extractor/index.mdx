@@ -1,0 +1,100 @@
+---
+title: Critical CSS Extractor
+description: Extracts above-the-fold (critical) CSS from web pages using Chrome DevTools Protocol to boost Core Web Vitals — improving LCP and FCP scores for better SEO rankings.
+pubDate: 2026-07-01
+techStack:
+  - Python
+  - Playwright
+  - Chrome DevTools Protocol
+  - SEO
+  - Core Web Vitals
+githubUrl: https://github.com/fahimpyto/critical_css_extractor
+featured: true
+category: SEO
+---
+
+## Overview
+
+**Critical CSS Extractor** is a tool that extracts the minimum CSS required to render the visible (above-the-fold) portion of a webpage. By inlining critical CSS in the `<head>`, you eliminate render-blocking CSS requests — directly improving Largest Contentful Paint (LCP) and First Contentful Paint (FCP), which are key Google Core Web Vitals metrics.
+
+## Problem
+
+Render-blocking CSS is one of the most common causes of poor LCP and FCP scores. When a browser loads a page, it must download and parse all CSS files before rendering anything above the fold. This delays the initial paint and hurts both user experience and SEO rankings.
+
+Most web pages ship 50-200KB of CSS, but only 10-20% of it is needed to render the above-the-fold content. The rest can be loaded asynchronously without blocking the initial render.
+
+## Solution
+
+This tool uses Chrome DevTools Protocol (CDTP) to track exactly which CSS rules are applied during the initial render of a page at specific viewport sizes, then extracts only those rules.
+
+1. **Launch** — Headless Chromium via Playwright
+2. **Navigate** — Load the page at configured viewport sizes (mobile + desktop)
+3. **Track** — Uses CDTP `CSS.startRuleUsageTracking` to record every CSS rule applied
+4. **Extract** — Used rule ranges are sliced from their original stylesheets
+5. **Merge** — Rules are deduplicated across viewports while preserving source order
+6. **Output** — Ready-to-inline CSS or wrapped `<style>` block
+
+## Features
+
+### Chrome DevTools Protocol Integration
+
+Uses CDTP's `CSS.startRuleUsageTracking` for precise CSS rule coverage tracking — more accurate than parsing approaches because it knows exactly which rules the browser actually applied.
+
+### Dual Extraction Methods
+
+- **CDTP mode** — Tracks real CSS rules from stylesheets for smaller, more accurate output
+- **JS fallback** — Injects JavaScript that reads `getComputedStyle` for every visible element
+- **Auto mode** — Tries CDTP first, falls back to JS if CDTP is unavailable
+
+### Multi-Viewport Support
+
+Captures critical CSS for both mobile and desktop viewports simultaneously, merging rules without duplicates. Configurable viewport sizes via `--mobile` and `--desktop` flags.
+
+### Batch Processing
+
+Process hundreds of URLs from a file for site-wide critical CSS generation.
+
+### Flexible Output Formats
+
+- Raw CSS (for manual inlining)
+- Inline `<style>` block (ready to paste into HTML)
+
+### CI/CD Ready
+
+Zero-config CLI that integrates easily into build pipelines, deployment scripts, and GitHub Actions workflows.
+
+## CLI Reference
+
+```bash
+main.py --url <URL> [--mobile WxH] [--desktop WxH] [--output FILE]
+         [--format {css,inline}] [--method {cdtp,js,auto}] [--verbose]
+```
+
+## Integration Examples
+
+- **Webpack/Vite** — Run as a pre-build step to generate critical CSS
+- **Django/Jinja/PHP** — Include critical CSS in `<head>` with async full CSS loading
+- **GitHub Actions** — Auto-generate critical CSS on each deployment
+
+## Tech Stack
+
+- **Language**: Python 3.10+
+- **Browser Automation**: Playwright (headless Chromium with CDTP)
+- **Packaging**: pyproject.toml (pip-installable)
+- **License**: MIT
+
+## Challenges
+
+Working with the Chrome DevTools Protocol required understanding its asynchronous event-driven architecture. Different stylesheets load at different times, and some pages block DevTools access entirely. Handling edge cases like dynamically injected stylesheets, `@import` rules, and cross-origin stylesheet restrictions required careful engineering.
+
+## Lessons Learned
+
+This project gave me deep insight into browser rendering pipelines, CSSOM construction, and the critical rendering path. I learned about CDTP's powerful CSS tracking capabilities, the nuances of viewport-specific CSS coverage, and practical strategies for improving Core Web Vitals scores in real-world web applications.
+
+## Future Improvements
+
+- Automatic CSS purging for unused critical CSS
+- Integration with popular static site generators
+- Visual comparison of before/after page load performance
+- Serverless API endpoint for on-demand critical CSS generation
+- Support for CSS custom properties and `@layer` rules

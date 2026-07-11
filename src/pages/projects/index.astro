@@ -6,6 +6,10 @@ import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const categories = [...new Set(sorted.map((p) => p.data.category))].sort();
+const activeCategory = Astro.url.searchParams.get('category') || 'All';
+const filtered = activeCategory === 'All' ? sorted : sorted.filter((p) => p.data.category === activeCategory);
 ---
 
 <BaseLayout title="Projects" description="A collection of projects I've built." currentPath="/projects">
@@ -16,14 +20,40 @@ const sorted = allProjects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubD
         description="Things I've built and contributed to."
       />
 
-      {sorted.length > 0 ? (
+      <div class="flex flex-wrap gap-2 mb-10">
+        <a
+          href="/projects"
+          class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+            activeCategory === 'All'
+              ? 'bg-(--color-current-primary) text-white'
+              : 'bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-text) border border-(--color-current-border)'
+          }`}
+        >
+          All
+        </a>
+        {categories.map((cat) => (
+          <a
+            href={`/projects?category=${encodeURIComponent(cat)}`}
+            class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+              activeCategory === cat
+                ? 'bg-(--color-current-primary) text-white'
+                : 'bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-text) border border-(--color-current-border)'
+            }`}
+          >
+            {cat}
+          </a>
+        ))}
+      </div>
+
+      {filtered.length > 0 ? (
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {sorted.map((project) => (
+          {filtered.map((project) => (
             <ProjectCard
               title={project.data.title}
               description={project.data.description}
               techStack={project.data.techStack}
               githubUrl={project.data.githubUrl}
+              liveUrl={project.data.liveUrl}
               pypiUrl={project.data.pypiUrl}
               slug={project.id.replace(/\/index\.mdx$/, '').replace(/\.mdx$/, '')}
               image={project.data.heroImage}

@@ -5,6 +5,10 @@ import Button from '../components/ui/Button.astro';
 import CTA from '../components/widgets/CTA.astro';
 import experienceData from '../data/experience';
 import skillsData from '../data/skills';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
 <BaseLayout title="Resume" description="Professional resume of Fahim Ahmed." currentPath="/resume">
@@ -45,9 +49,9 @@ import skillsData from '../data/skills';
           <p class="text-sm text-(--color-current-text-secondary) leading-relaxed">
             Python developer with expertise in automation, web scraping, data processing, and open-source development.
             Passionate about building tools that solve real problems. Experienced in BeautifulSoup, Selenium, Playwright,
-            Pandas, NumPy, and Django. Creator of metascrub — a CLI tool for AI metadata stripping. Strong Technical SEO
-            knowledge with focus on structured data, accessibility, and Core Web Vitals. Active open-source contributor
-            and AI/ML enthusiast.
+            Pandas, NumPy, and Django. Created 6 open-source tools including metascrub (AI metadata stripping),
+            WebWeaver (visual sitemap crawler), HeadingHunter (SEO heading audit), Critical CSS Extractor, and others.
+            Strong Technical SEO knowledge with focus on structured data, accessibility, and Core Web Vitals.
           </p>
         </div>
 
@@ -92,10 +96,14 @@ import skillsData from '../data/skills';
         <!-- Open Source -->
         <div class="mb-8">
           <h2 class="text-xl font-heading font-semibold text-(--color-current-text) mb-3">Open Source</h2>
-          <div class="p-4 rounded-lg border border-(--color-current-border) bg-(--color-current-surface)">
-            <h3 class="text-sm font-semibold text-(--color-current-text)">metascrub</h3>
-            <p class="text-xs text-(--color-current-text-secondary) mt-1">CLI tool for stripping AI metadata from images. Supports C2PA manifest parsing, multi-format cleaning, and realistic EXIF injection.</p>
-            <p class="text-xs text-(--color-current-text-muted) mt-1">Python · CLI · pypi.org/project/metascrub</p>
+          <div class="grid gap-3">
+            {sortedProjects.map((project) => (
+              <div class="p-4 rounded-lg border border-(--color-current-border) bg-(--color-current-surface)">
+                <h3 class="text-sm font-semibold text-(--color-current-text)">{project.data.title}</h3>
+                <p class="text-xs text-(--color-current-text-secondary) mt-1">{project.data.description}</p>
+                <p class="text-xs text-(--color-current-text-muted) mt-1">{project.data.techStack.join(' · ')}{project.data.githubUrl ? ` · ${project.data.githubUrl.replace('https://github.com/', 'github.com/')}` : ''}{project.data.pypiUrl ? ` · ${project.data.pypiUrl.replace('https://pypi.org/project/', 'pypi.org/project/')}` : ''}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

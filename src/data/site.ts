@@ -20,12 +20,12 @@ export const HERO = {
 };
 
 export const HOME_SECTIONS = {
-  currentFocus: 'Currently building fahimpyto.dev and improving metascrub — a CLI tool for stripping AI metadata from images. Also writing about Technical SEO and Python automation.',
+  currentFocus: 'Building open-source SEO tools (WebWeaver, HeadingHunter, Critical CSS Extractor, CAE Content Compare) and data scraping automation. Improving metascrub and writing about Technical SEO & Python automation.',
 };
 
 export const QUICK_STATS = [
   { label: 'PyPI Package', value: '1' },
   { label: 'Years Coding', value: '2' },
-  { label: 'Open Source', value: '1' },
+  { label: 'Open Source', value: '6' },
   { label: 'Articles', value: '0' },
 ];

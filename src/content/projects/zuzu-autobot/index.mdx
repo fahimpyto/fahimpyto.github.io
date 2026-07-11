@@ -1,0 +1,120 @@
+---
+title: ZuZu Autobot
+description: Fully automated web scraping and notification bot that crawls GSMArena for latest devices, extracts detailed specifications, downloads images, and sends Telegram alerts — all powered by GitHub Actions on a daily schedule.
+pubDate: 2026-07-10
+techStack:
+  - Python
+  - Playwright
+  - Telegram API
+  - GitHub Actions
+  - Pillow
+  - Web Scraping
+githubUrl: https://github.com/fahimpyto/ZuZu_autobot
+featured: true
+category: Data Scraping
+---
+
+## Overview
+
+**ZuZu Autobot** (GSMArena Web Automation & Scraper Bot) is an end-to-end automated scraping pipeline that monitors GSMArena.com for newly released mobile devices, extracts full specifications, downloads and resizes images, and sends rich Telegram notifications to subscribers — all running automatically via GitHub Actions.
+
+## Problem
+
+Keeping up with new mobile device releases requires manually checking GSMArena, reading through specification tables, and sharing findings with interested parties. This is repetitive, time-consuming, and easy to miss.
+
+## Solution
+
+ZuZu Autobot automates the entire workflow:
+
+1. **Crawl** — Visits GSMArena's "Latest devices" section using Playwright
+2. **Extract** — Parses full specification tables (network, display, camera, battery, platform, etc.)
+3. **Transform** — Converts raw data into clean, structured JSON with 8 standardized categories
+4. **Download images** — Captures device photos and resizes them to 300px width
+5. **Notify** — Sends formatted Telegram messages with photos to all registered users
+6. **Schedule** — Runs automatically at 11 AM and 11 PM Bangladesh time via GitHub Actions
+
+## Features
+
+### Automated GSMArena Scraping
+
+Navigates GSMArena's "Latest devices" module, handles cookie consent banners, and extracts all new device links — avoiding previously scraped URLs through a CSV tracker.
+
+### Detailed Spec Extraction
+
+Captures the full specification tables including:
+
+- Network technology and bands
+- Display type, size, resolution, and refresh rate
+- Platform (OS, chipset, CPU, GPU)
+- Memory (internal storage and RAM)
+- Camera specifications (megapixels, aperture, video capabilities)
+- Battery capacity and charging speeds
+- Body dimensions and weight
+- Connectivity features (NFC, Infrared, Bluetooth, etc.)
+
+### Intelligent Data Transformation
+
+Raw GSMArena text is parsed with regex to extract structured data like:
+
+- Camera aperture and focal length
+- Battery capacity and charging wattage
+- Display refresh rate and peak brightness
+- Storage/RAM separation from combined fields
+- Wired and wireless charging speed detection
+
+### Image Download and Processing
+
+Downloads each device's main image and resizes to 300px width using Pillow (LANCZOS resampling) for consistent thumbnails.
+
+### Telegram Notifications
+
+Sends beautifully formatted Markdown messages with:
+
+- Device name and brand
+- Key specs summary
+- Device photo (when available)
+- Link to full GSMArena page
+
+### Duplicate Detection
+
+Maintains a CSV tracker of all previously scraped devices — never re-processes the same URL.
+
+### Full CI/CD Automation
+
+Two GitHub Actions workflows handle everything:
+
+- **Scraper workflow** — Runs twice daily (11 AM and 11 PM BDT), auto-commits new data
+- **Chat ID collector** — Runs hourly to register new Telegram users
+- Both support manual `workflow_dispatch` triggers
+
+### Debug Mode
+
+On scraping failure, an `error_screenshot.png` is automatically saved for debugging. Dry-run mode (`--dry-run`) disables Telegram notifications for testing.
+
+## Tech Stack
+
+- **Language**: Python 3.10
+- **Browser Automation**: Playwright (sync API with headless Chromium)
+- **Image Processing**: Pillow (PIL)
+- **HTTP**: Requests library
+- **Telegram**: Bot API (sendPhoto, sendMessage)
+- **CI/CD**: GitHub Actions (scheduled + manual triggers)
+- **Storage**: CSV (tracking) + JSON (structured data)
+- **Time Zone**: pytz (Bangladesh Standard Time)
+- **License**: MIT
+
+## Challenges
+
+GSMArena's complex HTML table structure required careful parsing to handle variations in how specs are organized across different device types. The Telegram MarkdownV2 parsing mode has strict escaping rules that needed comprehensive handling. GitHub Actions' 6-hour cron delay and 6-minute execution limit required optimization of the scraping pipeline to fit within constraints.
+
+## Lessons Learned
+
+This project gave me extensive experience with production web scraping patterns — handling cookies, resource blocking for performance, incremental scraping with duplicates detection, and CI/CD automation. I learned about the Telegram Bot API's capabilities and limitations, effective regex-based text transformation, and the importance of robust error handling in automated pipelines.
+
+## Future Improvements
+
+- Support for multiple device databases (e.g., PhoneArena, Kimovil)
+- Price tracking and price drop alerts
+- Email notifications as a Telegram alternative
+- Web dashboard for browsing scraped devices
+- AI-powered spec comparison between devices

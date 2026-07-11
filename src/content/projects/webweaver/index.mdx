@@ -1,0 +1,119 @@
+---
+title: WebWeaver
+description: Async website hierarchy crawler that generates interactive, self-contained visual sitemaps with SEO diagnostics — including load times, HTTP status codes, and on-page metrics.
+pubDate: 2026-07-05
+techStack:
+  - Python
+  - Playwright
+  - BeautifulSoup
+  - Asyncio
+  - Jinja2
+  - SEO
+githubUrl: https://github.com/fahimpyto/WebWeaver
+featured: true
+category: SEO
+---
+
+## Overview
+
+**WebWeaver** is an async website hierarchy crawler that generates interactive visual sitemaps with built-in SEO diagnostics. Point it at any URL and get a browsable, zoomable tree map of the entire site structure — complete with load times, HTTP status codes, and on-page SEO metrics — all in a single self-contained HTML file.
+
+## Problem
+
+Understanding a website's structure is essential for SEO audits, but most sitemap tools provide either raw XML (difficult to visualize) or require expensive enterprise software. SEO professionals need a way to:
+
+- Visualize site hierarchy and page relationships
+- Identify broken links, timeouts, and HTTP errors
+- Audit on-page SEO elements across the entire site
+- Spot orphan pages or shallow content areas
+- Share findings with clients in an accessible format
+
+## Solution
+
+WebWeaver crawls a website using async BFS (breadth-first search), builds a hierarchical tree based on URL path structure, and renders everything into a single interactive HTML file:
+
+1. **Async crawling** — Crawls pages in parallel batches for fast site-wide coverage
+2. **Link discovery** — Extracts all internal links, normalizes URLs, follows them breadth-first
+3. **Tree construction** — Builds a parent-child hierarchy based on URL path structure
+4. **SEO extraction** — Per-page title, meta description, H1/H2 counts, images, and link counts
+5. **Performance metrics** — Load time (ms) and page size (KB) for every URL
+6. **Visualization** — Self-contained HTML with pan/zoom, collapsible branches, and detail panels
+
+## Features
+
+### Async BFS Crawling
+
+Fast parallel crawling with configurable batch size (default: 10 concurrent requests) for efficient site-wide coverage.
+
+### Interactive Visual Sitemap
+
+The generated HTML is a fully self-contained interactive visualization with:
+
+- **Pan and zoom** — Mouse drag to pan, scroll wheel to zoom
+- **Collapsible tree** — Click + or - to expand/collapse branches
+- **Color-coded status** — Green (200 OK), Yellow (3xx redirect), Red (4xx error), Purple (5xx error)
+- **Clickable detail panels** — Click any node for full page information
+
+### SEO Data Extraction
+
+For every crawled page:
+
+- Page title
+- Meta description
+- H1 and H2 heading counts
+- Image count
+- Internal and external link counts
+
+### Performance Monitoring
+
+- Page load time in milliseconds
+- Page size in kilobytes
+
+### Error Reporting
+
+Broken links, timeouts, and HTTP errors are highlighted visually in the sitemap tree.
+
+### Single-File Export
+
+The output is a single HTML file with zero external dependencies — just open it in any browser.
+
+### Summary Statistics
+
+Status bar showing total pages crawled, successful/failed counts, total crawl time, and average load time.
+
+## CLI Reference
+
+```bash
+main.py [-u URL] [-m MAX_PAGES] [-o OUTPUT] [-b BATCH_SIZE]
+         [-t TIMEOUT] [--delay DELAY]
+```
+
+- `-b, --batch-size` — Concurrent requests per batch (default: 10)
+- `-t, --timeout` — Page load timeout in seconds (default: 20)
+- `--delay` — Delay between batches in seconds (default: 0)
+
+## Tech Stack
+
+- **Language**: Python 3.8+
+- **Browser Automation**: Playwright (async API)
+- **HTML Parsing**: BeautifulSoup (bs4) with lxml
+- **Template Rendering**: Jinja2
+- **Async Runtime**: asyncio
+- **Output**: Self-contained interactive HTML
+- **License**: MIT
+
+## Challenges
+
+Building a robust async crawler required handling many edge cases — infinite loops from calendar widgets, redirect chains, JavaScript redirects, and pages that never finish loading. The tree construction algorithm needed to handle deeply nested URL structures while maintaining clear visual hierarchy. Ensuring the output HTML was truly self-contained (no external dependencies) while remaining interactive required careful design.
+
+## Lessons Learned
+
+This project taught me advanced async programming patterns with asyncio, practical BFS crawling strategies, and the complexities of URL normalization and deduplication. Building the interactive visualization from scratch deepened my understanding of DOM manipulation, SVG-based tree rendering, and event-driven interactivity in pure HTML/JavaScript.
+
+## Future Improvements
+
+- Screenshot capture for each page in the sitemap
+- Lighthouse integration for per-page performance scores
+- Crawl comparison (diff between two crawls)
+- Export to JSON for custom analysis pipelines
+- Wordpress plugin for automated site auditing

@@ -15,7 +15,7 @@ const blogPosts = await getCollection('blog');
 
 const featuredProjects = projects
   .filter((p) => p.data.featured)
-  .slice(0, 4);
+  .slice(0, 6);
 
 const latestPosts = blogPosts
   .filter((p) => !p.data.draft)
@@ -119,6 +119,7 @@ import skillsData from '../data/skills';
               description={project.data.description}
               techStack={project.data.techStack}
               githubUrl={project.data.githubUrl}
+              liveUrl={project.data.liveUrl}
               pypiUrl={project.data.pypiUrl}
               slug={project.id.replace(/\/index\.mdx$/, '').replace(/\.mdx$/, '')}
               image={project.data.heroImage}

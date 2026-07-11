@@ -1,0 +1,122 @@
+---
+title: HeadingHunter
+description: Professional SEO heading analysis tool that extracts and validates HTML heading structure (H1-H6) along with critical SEO meta tags from web pages. Built with Playwright for accurate rendering of JavaScript-heavy sites.
+pubDate: 2026-06-25
+techStack:
+  - Python
+  - Playwright
+  - BeautifulSoup
+  - SEO
+  - CLI
+githubUrl: https://github.com/fahimpyto/HeadingHunter
+featured: true
+category: SEO
+---
+
+## Overview
+
+**HeadingHunter** is a comprehensive SEO auditing tool that analyzes the heading structure and meta tags of any webpage. It validates heading hierarchy, detects SEO violations, and extracts critical meta information — all with support for JavaScript-rendered pages via Playwright.
+
+## Problem
+
+Proper heading structure (H1-H6) is a critical on-page SEO ranking factor, yet many websites have issues like:
+
+- Missing H1 tags
+- Multiple H1 tags on a single page
+- Skipped heading levels (e.g., jumping from H1 to H3)
+- Headings that are too short or too long
+- Missing or poorly written meta descriptions and title tags
+- Missing Open Graph tags for social sharing
+
+Manual heading audits are time-consuming, especially across large websites.
+
+## Solution
+
+HeadingHunter automates the entire heading audit process:
+
+1. **Scrape** — Uses Playwright to render the page (with JavaScript), ensuring all dynamically generated headings are captured
+2. **Extract** — Parses the HTML to extract all H1-H6 tags, meta tags, and Open Graph data
+3. **Validate** — Checks for heading hierarchy violations, duplicate H1s, and quality issues
+4. **Report** — Outputs structured reports in CSV or JSON format
+
+## Features
+
+### Complete SEO Meta Extraction
+
+- Page `<title>` tag content
+- `<meta name="description">` content
+- `<link rel="canonical">` URL
+- Open Graph tags (`og:title`, `og:description`, `og:image`)
+- `<meta name="robots">` directives
+
+### Comprehensive Heading Analysis
+
+- Extracts all H1-H6 tags with their full text content
+- Validates heading hierarchy (no skipped levels)
+- Detects missing H1 tags
+- Flags multiple H1 tags on a single page
+- Checks heading quality (too short: under 2 words, too long: over 15 words)
+
+### Image SEO Audit
+
+- Total image count on the page
+- Count of images missing `alt` attributes
+
+### Concurrent Bulk Processing
+
+Uses `ThreadPoolExecutor` for fast concurrent scraping of multiple URLs with configurable worker count.
+
+### Retry Logic
+
+Automatic retry on failure (up to 3 attempts) with configurable timeout.
+
+### Multiple Output Formats
+
+- CSV export with UTF-8 BOM encoding (Excel-compatible)
+- JSON export for API integration
+- Both formats simultaneously
+
+### Progress Tracking
+
+Visual progress bar via `tqdm` for bulk operations, showing real-time scraping status.
+
+## CLI Reference
+
+```bash
+HeadingHunter.py [-h] [--url URL | --file FILE] [--output OUTPUT]
+                  [--format {csv,json,both}] [--workers WORKERS]
+                  [--timeout TIMEOUT] [--visible]
+```
+
+### Modes
+
+- **Single URL**: `python HeadingHunter.py --url https://example.com`
+- **Bulk file**: `python HeadingHunter.py --file urls.txt`
+- **Interactive**: Run without arguments for an interactive menu
+
+## Tech Stack
+
+- **Language**: Python 3.8+
+- **Browser Automation**: Playwright (headless Chromium)
+- **HTML Parsing**: BeautifulSoup (bs4)
+- **CLI**: argparse
+- **Concurrency**: ThreadPoolExecutor
+- **Progress**: tqdm
+- **Output**: CSV, JSON
+- **License**: MIT
+
+## Challenges
+
+Handling the wide variety of heading structures across different websites was the biggest challenge. Some sites use non-standard heading implementations, dynamically inject headings via JavaScript, or use CSS to visually hide headings. Ensuring accurate extraction across all scenarios required careful Playwright configuration and robust HTML parsing.
+
+## Lessons Learned
+
+This project taught me about the complexities of semantic HTML and heading hierarchy validation. I gained experience with concurrent web scraping patterns, robust error handling in distributed scraping, and designing CLI tools with good user experience through progress indicators and clear output formatting.
+
+## Future Improvements
+
+- Integration with Google Search Console data
+- Automated fix suggestions for common heading violations
+- Visual heading overlay on screenshots
+- HTML report with color-coded heading hierarchy diagram
+- API mode for integration with CI/CD pipelines

@@ -1,0 +1,85 @@
+---
+title: CAE Content Compare by JS
+description: Detects content gaps caused by JavaScript rendering failures. Compares how a webpage renders with and without JavaScript to identify what content search engines like Googlebot might miss.
+pubDate: 2026-06-20
+techStack:
+  - Python
+  - Playwright
+  - BeautifulSoup
+  - SEO
+  - Web Scraping
+githubUrl: https://github.com/fahimpyto/CAE_content_compare_by_JS
+featured: true
+category: SEO
+---
+
+## Overview
+
+**CAE Content Compare by JS** is an SEO diagnostic tool that simulates how Googlebot sees a webpage (without JavaScript) versus how a normal browser renders it (with JavaScript). It then identifies exactly what content is invisible to search engines, helping SEO professionals fix JavaScript-dependent content gaps.
+
+## Problem
+
+Many modern websites rely on JavaScript to load critical content — text, links, images, and structured data. However, search engine crawlers like Googlebot may not execute JavaScript fully (or at all), meaning:
+
+- Content loaded via JavaScript frameworks (React, Vue, Angular) may be invisible
+- Dynamically injected text, links, and images may not be indexed
+- Structured data (JSON-LD) added by JS won't appear in search results
+- Server-side rendering issues can cause content to be missing for bots
+
+## Solution
+
+This tool provides a dual-rendering comparison approach:
+
+1. **Render with JavaScript** — Uses Playwright (Chromium headless) to render the page as a normal browser would
+2. **Render without JavaScript** — Uses Playwright to render the same page with JavaScript disabled, simulating Googlebot
+3. **Clean** — Strips `<script>`, `<style>`, `<link>` tags, and inline `style` attributes from both versions
+4. **Compare** — Extracts all `<body>` tags and performs a tag-level diff to find:
+   - **Missing tags** — Content in the JS version that's absent in the no-JS version (what bots miss)
+   - **Extra tags** — Content present only in the no-JS version (e.g., deobfuscated CloudFlare email links, fallback content)
+5. **Report** — Generates a detailed comparison report with timestamped output files
+
+## Features
+
+### Dual Rendering Engine
+
+Leverages Playwright's browser automation to render pages with and without JavaScript, giving an accurate picture of what both users and bots see.
+
+### Intelligent HTML Cleaning
+
+Automatically removes `<script>`, `<style>`, and `<link>` tags plus inline `style` attributes from both HTML snapshots to ensure the comparison focuses on actual content.
+
+### Tag-Level Diff Analysis
+
+Performs a detailed comparison of body content at the tag level, identifying exactly which HTML elements are missing or extra in each version.
+
+### CSV Logging
+
+Maintains a database of all scanned URLs to prevent re-scraping and track historical comparisons.
+
+### Timestamped Output
+
+Every run generates uniquely timestamped output files, ensuring no accidental overwrites and enabling historical comparison tracking.
+
+## Tech Stack
+
+- **Language**: Python 3.8+
+- **Browser Automation**: Playwright (headless Chromium)
+- **HTML Parsing**: BeautifulSoup (bs4) with lxml backend
+- **Output**: TXT report + HTML files + CSV database
+- **License**: MIT
+
+## Challenges
+
+Simulating an accurate Googlebot experience required careful configuration of Playwright's browser context. Different sites handle JavaScript differently — some use progressive enhancement, others are fully dependent on JS frameworks. Ensuring clean, comparable HTML snapshots across these scenarios was the primary technical challenge.
+
+## Lessons Learned
+
+Building this tool deepened my understanding of how search engine crawlers interact with JavaScript-rendered content. I learned about Playwright's browser context management, effective HTML sanitization techniques, and the nuances of content diffing at scale. The project also highlighted the importance of progressive enhancement and server-side rendering for SEO.
+
+## Future Improvements
+
+- Support for custom user-agent strings to simulate specific crawlers
+- Screenshot comparison alongside HTML diff
+- Integration with Lighthouse for performance analysis
+- Batch URL processing from a file
+- Visual diff output with highlighted content changes
