@@ -8,8 +8,30 @@ const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 const categories = [...new Set(sorted.map((p) => p.data.category))].sort();
-const activeCategory = Astro.url.searchParams.get('category') || 'All';
-const filtered = activeCategory === 'All' ? sorted : sorted.filter((p) => p.data.category === activeCategory);
+
+interface ProjectData {
+  title: string;
+  description: string;
+  techStack: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+  pypiUrl?: string;
+  slug: string;
+  category: string;
+  image?: string;
+}
+
+const projectsData: ProjectData[] = sorted.map((p) => ({
+  title: p.data.title,
+  description: p.data.description,
+  techStack: p.data.techStack,
+  githubUrl: p.data.githubUrl,
+  liveUrl: p.data.liveUrl,
+  pypiUrl: p.data.pypiUrl,
+  slug: p.id.replace(/\/index\.mdx$/, '').replace(/\.mdx$/, ''),
+  category: p.data.category,
+  image: p.data.heroImage,
+}));
 ---
 
 <BaseLayout title="Projects" description="A collection of projects I've built." currentPath="/projects">
@@ -20,53 +42,70 @@ const filtered = activeCategory === 'All' ? sorted : sorted.filter((p) => p.data
         description="Things I've built and contributed to."
       />
 
-      <div class="flex flex-wrap gap-2 mb-10">
-        <a
-          href="/projects"
-          class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
-            activeCategory === 'All'
-              ? 'bg-(--color-current-primary) text-white'
-              : 'bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-text) border border-(--color-current-border)'
-          }`}
-        >
+      <div id="project-filters" class="flex flex-wrap gap-2 mb-10">
+        <button data-category="All" class="filter-btn px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 bg-(--color-current-primary) text-white">
           All
-        </a>
+        </button>
         {categories.map((cat) => (
-          <a
-            href={`/projects?category=${encodeURIComponent(cat)}`}
-            class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
-              activeCategory === cat
-                ? 'bg-(--color-current-primary) text-white'
-                : 'bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-text) border border-(--color-current-border)'
-            }`}
-          >
+          <button data-category={cat} class="filter-btn px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-text) border border-(--color-current-border)">
             {cat}
-          </a>
+          </button>
         ))}
       </div>
 
-      {filtered.length > 0 ? (
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map((project) => (
+      <div id="projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {projectsData.map((project) => (
+          <div class="project-card" data-category={project.category}>
             <ProjectCard
-              title={project.data.title}
-              description={project.data.description}
-              techStack={project.data.techStack}
-              githubUrl={project.data.githubUrl}
-              liveUrl={project.data.liveUrl}
-              pypiUrl={project.data.pypiUrl}
-              slug={project.id.replace(/\/index\.mdx$/, '').replace(/\.mdx$/, '')}
-              image={project.data.heroImage}
+              title={project.title}
+              description={project.description}
+              techStack={project.techStack}
+              githubUrl={project.githubUrl}
+              liveUrl={project.liveUrl}
+              pypiUrl={project.pypiUrl}
+              slug={project.slug}
+              image={project.image}
             />
-          ))}
-        </div>
-      ) : (
-        <div class="text-center py-20">
-          <p class="text-(--color-current-text-secondary) text-lg">
-            Projects coming soon.
-          </p>
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  function filterProjects(category) {
+    filterBtns.forEach((btn) => {
+      const isActive = btn.dataset.category === category;
+      btn.className = `filter-btn px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+        isActive
+          ? 'bg-(--color-current-primary) text-white'
+          : 'bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-text) border border-(--color-current-border)'
+      }`;
+    });
+
+    projectCards.forEach((card) => {
+      if (category === 'All' || card.dataset.category === category) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const initialCategory = params.get('category') || 'All';
+  filterProjects(initialCategory);
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const category = btn.dataset.category;
+      const url = category === 'All' ? '/projects' : `/projects?category=${encodeURIComponent(category)}`;
+      window.history.replaceState(null, '', url);
+      filterProjects(category);
+    });
+  });
+</script>
