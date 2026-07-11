@@ -34,8 +34,7 @@ const socialLinks: SocialLink[] = [
         {socialLinks.map((link) => (
           <a
             href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...(!link.url.startsWith('mailto:') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             class="text-(--color-current-text-muted) hover:text-(--color-current-primary) transition-colors"
             aria-label={link.platform}
           >
