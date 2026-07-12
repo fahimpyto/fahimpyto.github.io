@@ -27,27 +27,76 @@ function isActive(itemPath: string): boolean {
 }
 ---
 
-<div id="mobile-menu" class="fixed inset-0 z-50 hidden">
-  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="mobile-overlay"></div>
-  <div class="relative flex flex-col items-center justify-center h-full gap-2">
-    {
-      navItems.map((item) => (
-        <a
-          href={item.path}
-          class={`
-            text-2xl font-medium px-6 py-3 rounded-xl transition-all duration-200
-            ${isActive(item.path)
-              ? 'text-(--color-current-primary) bg-(--color-current-primary-muted)'
-              : 'text-(--color-current-text) hover:text-(--color-current-primary)'
-            }
-          `}
-        >
-          {item.label}
-        </a>
-      ))
-    }
+<div id="mobile-menu" class="fixed inset-0 z-50">
+  <div id="mobile-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"></div>
+
+  <div class="drawer-panel absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-(--color-current-surface) shadow-xl border-l border-(--color-current-border) flex flex-col">
+    <div class="flex items-center justify-between pl-6 pr-3 h-16 border-b border-(--color-current-border) shrink-0">
+      <span class="font-heading font-semibold text-lg text-(--color-current-text)">Menu</span>
+      <button id="menu-close" class="flex items-center justify-center w-9 h-9 rounded-lg border border-(--color-current-border) bg-(--color-current-surface) text-(--color-current-text-secondary) hover:text-(--color-current-primary) hover:border-(--color-current-primary) cursor-pointer transition-colors duration-200" aria-label="Close menu">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="flex flex-col gap-1 p-4 overflow-y-auto">
+      {
+        navItems.map((item, i) => (
+          <a
+            href={item.path}
+            class={`
+              nav-item text-lg font-medium px-4 py-3 rounded-xl transition-all duration-200
+              ${isActive(item.path)
+                ? 'text-(--color-current-primary) bg-(--color-current-primary-muted)'
+                : 'text-(--color-current-text-secondary) hover:text-(--color-current-text) hover:bg-(--color-current-surface-elevated)'
+              }
+            `}
+            style={`transition-delay: ${i * 0.05}s`}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
   </div>
 </div>
+
+<style>
+  #mobile-menu {
+    pointer-events: none;
+  }
+  #mobile-menu.open {
+    pointer-events: auto;
+  }
+
+  #mobile-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  #mobile-menu.open #mobile-overlay {
+    opacity: 1;
+  }
+
+  .drawer-panel {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  #mobile-menu.open .drawer-panel {
+    transform: translateX(0);
+  }
+
+  .nav-item {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, color 0.2s, background-color 0.2s;
+  }
+  #mobile-menu.open .nav-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
 
 <script>
   const openBtn = document.getElementById('menu-open');
@@ -56,12 +105,12 @@ function isActive(itemPath: string): boolean {
   const overlay = document.getElementById('mobile-overlay');
 
   function openMenu() {
-    menu?.classList.remove('hidden');
+    menu?.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 
   function closeMenu() {
-    menu?.classList.add('hidden');
+    menu?.classList.remove('open');
     document.body.style.overflow = '';
   }
 
@@ -69,7 +118,13 @@ function isActive(itemPath: string): boolean {
   closeBtn?.addEventListener('click', closeMenu);
   overlay?.addEventListener('click', closeMenu);
 
-  document.querySelectorAll('#mobile-menu a').forEach(link => {
+  document.querySelectorAll('#mobile-menu nav a').forEach(link => {
     link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu?.classList.contains('open')) {
+      closeMenu();
+    }
   });
 </script>
